@@ -15,6 +15,15 @@ for s in secrets_src:
         SECRETS[s] = fp.read().strip()
 
 
+def telegram_text_escape(text: str) -> str:
+    chars = ("_", "*", "[", "]", "(", ")", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!")
+
+    for c in chars:
+        text = text.replace(c, f"\\{c}")
+
+    return text
+
+
 def handle(req: str) -> dict:
     """handle a request to the function
     Args:
@@ -30,7 +39,9 @@ def handle(req: str) -> dict:
         (
             "🤖 Update from Keel",
             "",
-            f">{payload.message}",
+            "```",
+            f"{telegram_text_escape(payload.message)}",
+            "```",
         ),
     )
 
@@ -42,6 +53,8 @@ def handle(req: str) -> dict:
             json={
                 "chat_id": APP_CHAT_ID,
                 "text": message,
+                "parse_mode": "MarkdownV2",
+                "disable_web_page_preview": True,
             },
         ).json()
     except Exception as e:
@@ -50,7 +63,7 @@ def handle(req: str) -> dict:
     return json.dumps(
         {
             "result": True,
-            "echo": payload,
+            "echo": json.loads(payload.json()),
             "tg_response": resp,
         },
     )

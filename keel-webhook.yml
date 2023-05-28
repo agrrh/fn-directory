@@ -1,0 +1,21 @@
+---
+
+version: 1.0
+provider:
+  name: openfaas
+
+functions:
+  keel-webhook:
+    lang: python3
+    handler: ./keel-webhook
+    image: agrrh/keel-webhook
+    environment:
+      APP_CHAT_ID: "CHANGEME"  # Use @RawDataBot to get ID of your user or group
+    secrets:
+      - tg-k-devops
+    requests:
+      cpu: 500m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi

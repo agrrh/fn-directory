@@ -38,7 +38,7 @@ class Payload(BaseModel):
     data: Dict
     items: Optional[List[PayloadRow]]
 
-    @validator("items", pre=True, always=True)
+    @validator("items", always=True)
     def validate_items(cls, value, values):
         print(value)
         print(values)

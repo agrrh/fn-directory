@@ -82,7 +82,7 @@ def handle(req: str) -> dict:
             "year": kinopoisk_data.year,
             "seasons": seasons,
             "episodes": episodes,
-            "duration": kinopoisk_data.movieLength,
+            "duration": int(kinopoisk_data.movieLength) * 60,
             "ageRestrictions": kinopoisk_data.ageRating,
             "rating": kinopoisk_data.rating.kp,
             "topPosition": kinopoisk_data.top250,

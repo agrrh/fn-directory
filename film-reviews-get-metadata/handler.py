@@ -66,7 +66,7 @@ def handle(req: str) -> dict:
             "genres": ", ".join([g.name for g in kinopoisk_data.genres]),
             "countries": ", ".join([c.name for c in kinopoisk_data.countries]),
             "year": kinopoisk_data.year,
-            "seasons": len(filter(kinopoisk_data.seasonsInfo, lambda season: season.episodesCount > 0)),
+            "seasons": len(list(filter(lambda season: season.episodesCount > 0, kinopoisk_data.seasonsInfo))),
             "episodes": sum([season.episodesCount for season in kinopoisk_data.seasonsInfo]),
             "duration": kinopoisk_data.movieLength,
             "ageRestrictions": kinopoisk_data.ageRating,

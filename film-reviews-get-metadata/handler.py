@@ -43,9 +43,9 @@ def handle(req: str) -> dict:
         req (str): request body
     """
 
-    payload = json.loads(req)
+    # payload = json.loads(req)
 
-    items = [{"id": i.get("id"), "url": i.get("url")} for i in payload.get("data", {}).get("rows", [])]
+    # items = [{"id": i.get("id"), "url": i.get("url")} for i in payload.get("data", {}).get("rows", [])]
 
     # kinopoisk_id = 5012  # Gattaca
     # kinopoisk_id = 777031  # Библиотекарь
@@ -58,7 +58,7 @@ def handle(req: str) -> dict:
     return json.dumps(
         {
             "result": True,
-            "items": items,
+            # "items": items,
             "echo": req,
         },
     )

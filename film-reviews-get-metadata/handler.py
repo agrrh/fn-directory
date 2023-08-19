@@ -3,6 +3,8 @@ import json
 # import os
 # import requests
 
+import re
+
 from kinopoisk_dev import KinopoiskDev
 
 # from nocodb.nocodb import NocoDBProject, APIToken
@@ -48,9 +50,10 @@ def handle(req: str) -> dict:
     items = []
     for item in payload.get("data", {}).get("rows", []):
         i = {
-            "id": item.get("Id") or item.get("id"),
+            "row_id": item.get("Id") or item.get("id"),
             "url": item.get("url"),
         }
+        i["kinopoisk_id"] = re.search(r"/(movie|series)/(\d+)/?", i["url"]).group()[1]
         items.append(i)
 
     # kinopoisk_id = 5012  # Gattaca

@@ -1,15 +1,12 @@
 import json
 
-import os
-
+# import os
 # import requests
 
 from kinopoisk_dev import KinopoiskDev
 
 # from nocodb.nocodb import NocoDBProject, APIToken
 # from nocodb.infra.requests_client import NocoDBRequestsClient
-
-from function import Payload
 
 # NOCODB_ADDR = os.environ.get("NOCODB_ADDR")
 # NOCODB_ORG = os.environ.get("NOCODB_ORG")

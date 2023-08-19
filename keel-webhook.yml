@@ -10,6 +10,7 @@ functions:
     handler: ./keel-webhook
     image: agrrh/keel-webhook
     environment:
+      write_debug: "true"  # yes, lowercased
       APP_CHAT_ID: "CHANGEME"  # Use @RawDataBot to get ID of your user or group
     secrets:
       - tg-k-devops

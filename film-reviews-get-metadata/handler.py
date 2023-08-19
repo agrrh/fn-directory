@@ -88,10 +88,11 @@ def handle(req: str) -> dict:
     #   }
     # }
 
-    # Gattaca
-    kp_movie = kinopoisk_client.find_one_movie(5012)
-    # Библиотекарь
-    kp_series = kinopoisk_client.find_one_movie(777031)
+    kinopoisk_id = 5012  # Gattaca
+    # kinopoisk_id = 777031  # Библиотекарь
+
+    kinopoisk_data = kinopoisk_client.find_one_movie(5012)
+    print(kinopoisk_data)
 
     # try:
     #     payload = Payload(**json.loads(req))
@@ -104,7 +105,6 @@ def handle(req: str) -> dict:
         {
             "result": True,
             "echo": json.loads(req),
-            "kp_movie": kp_movie,
-            "kp_series": kp_series,
+            "kinopoisk_data": kinopoisk_data,
         },
     )

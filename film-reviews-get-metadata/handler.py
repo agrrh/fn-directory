@@ -47,7 +47,10 @@ def handle(req: str) -> dict:
 
     items = []
     for item in payload.get("data", {}).get("rows", []):
-        i = {"id": item.get("id"), "url": item.get("url")}
+        i = {
+            "id": item.get("Id") or item.get("id"),
+            "url": item.get("url"),
+        }
         items.append(i)
 
     # kinopoisk_id = 5012  # Gattaca

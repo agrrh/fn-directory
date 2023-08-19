@@ -1,18 +1,18 @@
 import json
 
-# import os
-# import requests
+import os
 
 import re
 
 from kinopoisk_dev import KinopoiskDev
 
-# from nocodb.nocodb import NocoDBProject, APIToken
-# from nocodb.infra.requests_client import NocoDBRequestsClient
+from nocodb.nocodb import NocoDBProject, APIToken
+from nocodb.infra.requests_client import NocoDBRequestsClient
 
-# NOCODB_ADDR = os.environ.get("NOCODB_ADDR")
-# NOCODB_ORG = os.environ.get("NOCODB_ORG")
-# NOCODB_PROJECT = os.environ.get("NOCODB_PROJECT")
+NOCODB_ADDR = os.environ.get("NOCODB_ADDR")
+NOCODB_ORG = os.environ.get("NOCODB_ORG")
+NOCODB_PROJECT = os.environ.get("NOCODB_PROJECT")
+NOCODB_TABLE_METADATA = os.environ.get("NOCODB_TABLE_METADATA")
 
 SECRETS = {}
 
@@ -28,15 +28,15 @@ for s in secrets_src:
 
 kinopoisk_client = KinopoiskDev(token=SECRETS["kinopoisk-dev-token"])
 
-# noco_client = NocoDBRequestsClient(
-#     APIToken(SECRETS["api-token"]),
-#     NOCODB_ADDR,
-# )
-#
-# project = NocoDBProject(
-#     NOCODB_ORG,
-#     NOCODB_PROJECT,
-# )
+noco_client = NocoDBRequestsClient(
+    APIToken(SECRETS["api-token"]),
+    NOCODB_ADDR,
+)
+
+project = NocoDBProject(
+    NOCODB_ORG,
+    NOCODB_PROJECT,
+)
 
 
 def handle(req: str) -> dict:
@@ -56,13 +56,26 @@ def handle(req: str) -> dict:
         i["kinopoisk_id"] = re.search(r"/(film|series)/(\d+)/?", i["url"]).groups()[1]
         items.append(i)
 
-    # kinopoisk_id = 5012  # Gattaca
-    # kinopoisk_id = 777031  # Библиотекарь
+    for item in items:
+        kinopoisk_data = kinopoisk_client.find_one_movie(item["kinopoisk_id"])
 
-    # kinopoisk_data = kinopoisk_client.find_one_movie(kinopoisk_id)
-    # print(kinopoisk_data)
+        row_info = {
+            "url": item["url"],
+            "title": kinopoisk_data["enName"],
+            "title_local": kinopoisk_data["name"],
+            "genres": ", ".join([g["name"] for g in kinopoisk_data["genres"]]),
+            "countries": ", ".join([c["name"] for c in kinopoisk_data["countries"]]),
+            "year": kinopoisk_data["year"],
+            "seasons": len(filter(kinopoisk_data["seasonsInfo"], lambda x: x["episodesCount"] > 0)),
+            "episodes": sum([s["episodesCount"] for s in kinopoisk_data["seasonsInfo"]]),
+            "duration": kinopoisk_data["movieLength"],
+            "ageRestrictions": kinopoisk_data["ageRating"],
+            "rating": kinopoisk_data["rating"]["kp"],
+            "topPosition": kinopoisk_data["top250"],
+            "image": kinopoisk_data["top250"]["poster"]["url"],
+        }
 
-    # noco_client.table_row_update(project, NOCODB_TABLE_METADATA, row_id, row_info)
+        noco_client.table_row_update(project, NOCODB_TABLE_METADATA, item["row_id"], row_info)
 
     return json.dumps(
         {

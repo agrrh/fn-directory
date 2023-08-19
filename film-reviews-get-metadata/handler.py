@@ -46,11 +46,11 @@ def handle(req: str) -> dict:
         req (str): request body
     """
 
-    kinopoisk_id = 5012  # Gattaca
+    # kinopoisk_id = 5012  # Gattaca
     # kinopoisk_id = 777031  # Библиотекарь
 
-    kinopoisk_data = kinopoisk_client.find_one_movie(kinopoisk_id)
-    print(kinopoisk_data)
+    # kinopoisk_data = kinopoisk_client.find_one_movie(kinopoisk_id)
+    # print(kinopoisk_data)
 
     # try:
     #     payload = Payload(**json.loads(req))
@@ -63,6 +63,5 @@ def handle(req: str) -> dict:
         {
             "result": True,
             "echo": json.loads(req),
-            "kinopoisk_data": kinopoisk_data,
         },
     )

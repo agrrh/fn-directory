@@ -64,7 +64,7 @@ def handle(req: str) -> dict:
 
         row_info = {
             "url": item["url"],
-            "title": kinopoisk_data.enName,
+            "title": kinopoisk_data.alternativeName,
             "title_local": kinopoisk_data.name,
             "genres": ", ".join([g.name for g in kinopoisk_data.genres]),
             "countries": ", ".join([c.name for c in kinopoisk_data.countries]),

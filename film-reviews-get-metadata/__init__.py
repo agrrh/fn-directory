@@ -36,8 +36,8 @@ class Payload(BaseModel):
     """
 
     data: dict
-    items: List[PayloadRow] = []
+    items: List[PayloadRow]
 
-    @validator("items", pre=True)
+    @validator("items", pre=True, always=True)
     def validate_items(cls, value, values):
         return values["data"]["rows"]

@@ -59,5 +59,6 @@ def handle(req: str) -> dict:
         {
             "result": True,
             "items": items,
+            "echo": req,
         },
     )

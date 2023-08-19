@@ -83,7 +83,7 @@ def handle(req: str) -> dict:
             "ageRestrictions": kinopoisk_data.ageRating,
             "rating": kinopoisk_data.rating.kp,
             "topPosition": kinopoisk_data.top250,
-            "image": kinopoisk_data.top250.poster.url,
+            "image": kinopoisk_data.poster.url,
         }
 
         noco_client.table_row_update(project, NOCODB_TABLE_METADATA, item["row_id"], row_info)

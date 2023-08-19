@@ -59,6 +59,9 @@ def handle(req: str) -> dict:
     for item in items:
         kinopoisk_data = kinopoisk_client.find_one_movie(item["kinopoisk_id"])
 
+        print(kinopoisk_data)
+        print(kinopoisk_data.seasonsInfo)
+
         row_info = {
             "url": item["url"],
             "title": kinopoisk_data.enName,

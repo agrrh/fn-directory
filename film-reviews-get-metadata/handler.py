@@ -59,6 +59,20 @@ def handle(req: str) -> dict:
     for item in items:
         kinopoisk_data = kinopoisk_client.find_one_movie(item["kinopoisk_id"])
 
+        if kinopoisk_data.type == "movie":
+            seasons = 0
+            episodes = 0
+        elif isinstance(kinopoisk_data.seasonsInfo, tuple):
+            seasons = len(list(filter(lambda season: season.episodesCount > 0, kinopoisk_data.seasonsInfo)))
+            episodes_count_list = [season.episodesCount for season in kinopoisk_data.seasonsInfo]
+            if min(episodes_count_list) != max(episodes_count_list):
+                episodes = f"{min(episodes_count_list)}-{max(episodes_count_list)}"
+            else:
+                episodes = episodes_count_list[0]
+        else:
+            seasons = 1
+            episodes = kinopoisk_data.seasonsInfo.episodesCount
+
         row_info = {
             "url": item["url"],
             "title": kinopoisk_data.alternativeName,
@@ -66,16 +80,8 @@ def handle(req: str) -> dict:
             "genres": ", ".join([g.name for g in kinopoisk_data.genres]),
             "countries": ", ".join([c.name for c in kinopoisk_data.countries]),
             "year": kinopoisk_data.year,
-            "seasons": (
-                0
-                if kinopoisk_data.type == "movie"
-                else len(list(filter(lambda season: season.episodesCount > 0, kinopoisk_data.seasonsInfo)))
-            ),
-            "episodes": (
-                0
-                if kinopoisk_data.type == "movie"
-                else sum([season.episodesCount for season in kinopoisk_data.seasonsInfo])
-            ),
+            "seasons": seasons,
+            "episodes": episodes,
             "duration": kinopoisk_data.movieLength,
             "ageRestrictions": kinopoisk_data.ageRating,
             "rating": kinopoisk_data.rating.kp,

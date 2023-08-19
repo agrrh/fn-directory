@@ -1,0 +1,4 @@
+pydantic==1.10.8
+requests==2.31.0
+nocodb==1.0.1
+kinopoisk-dev==0.2.0

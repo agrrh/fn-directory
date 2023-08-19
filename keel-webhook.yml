@@ -10,12 +10,13 @@ functions:
     handler: ./keel-webhook
     image: agrrh/keel-webhook
     environment:
+      write_debug: "true"  # yes, lowercased
       APP_CHAT_ID: "CHANGEME"  # Use @RawDataBot to get ID of your user or group
     secrets:
       - tg-k-devops
     requests:
-      cpu: 500m
-      memory: 256Mi
+      cpu: 50m
+      memory: 128Mi
     limits:
       cpu: 500m
       memory: 256Mi

@@ -1,0 +1,25 @@
+---
+
+version: 1.0
+provider:
+  name: openfaas
+
+functions:
+  film-reviews-get-metadata:
+    lang: python3
+    handler: ./film-reviews-get-metadata
+    image: agrrh/film-reviews-get-metadata
+    environment:
+      write_debug: "true"  # yes, lowercased
+      NOCODB_ADDR: "http://localhost:8080"
+      NOCODB_ORG: "noco"
+      NOCODB_PROJECT: "my-project"
+      NOCODB_TABLE_METADATA: "my-table-metadata"
+    secrets:
+      - film-reviews-get-metadata
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi

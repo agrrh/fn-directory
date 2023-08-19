@@ -9,7 +9,7 @@ from kinopoisk_dev import KinopoiskDev
 # from nocodb.nocodb import NocoDBProject, APIToken
 # from nocodb.infra.requests_client import NocoDBRequestsClient
 
-# from function import Payload
+from function import Payload
 
 # NOCODB_ADDR = os.environ.get("NOCODB_ADDR")
 # NOCODB_ORG = os.environ.get("NOCODB_ORG")
@@ -52,16 +52,16 @@ def handle(req: str) -> dict:
     # kinopoisk_data = kinopoisk_client.find_one_movie(kinopoisk_id)
     # print(kinopoisk_data)
 
-    # try:
-    #     payload = Payload(**json.loads(req))
-    # except Exception as e:
-    #     return e
+    try:
+        payload = Payload(**json.loads(req))
+    except Exception as e:
+        return e
 
     # noco_client.table_row_update(project, NOCODB_TABLE_METADATA, row_id, row_info)
 
     return json.dumps(
         {
             "result": True,
-            "echo": json.loads(req),
+            "echo": json.loads(payload.json()),
         },
     )

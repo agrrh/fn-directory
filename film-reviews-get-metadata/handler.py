@@ -46,22 +46,21 @@ def handle(req: str) -> dict:
         req (str): request body
     """
 
+    payload = json.loads(req)
+
+    items = [{"id": i.get("id"), "url": i.get("url")} for i in payload.get("data", {}).get("rows", [])]
+
     # kinopoisk_id = 5012  # Gattaca
     # kinopoisk_id = 777031  # Библиотекарь
 
     # kinopoisk_data = kinopoisk_client.find_one_movie(kinopoisk_id)
     # print(kinopoisk_data)
 
-    try:
-        payload = Payload(**json.loads(req))
-    except Exception as e:
-        return e
-
     # noco_client.table_row_update(project, NOCODB_TABLE_METADATA, row_id, row_info)
 
     return json.dumps(
         {
             "result": True,
-            "echo": json.loads(payload.json()),
+            "items": items,
         },
     )

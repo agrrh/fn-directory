@@ -10,7 +10,7 @@ functions:
     handler: ./film-reviews-get-metadata
     image: agrrh/film-reviews-get-metadata
     environment:
-      WRITE_DEBUG: "true"
+      write_debug: "true"  # yes, lowercased
       NOCODB_ADDR: "http://localhost:8080"
       NOCODB_ORG: "noco"
       NOCODB_PROJECT: "my-project"

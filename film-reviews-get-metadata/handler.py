@@ -63,16 +63,16 @@ def handle(req: str) -> dict:
             "url": item["url"],
             "title": kinopoisk_data.enName,
             "title_local": kinopoisk_data.name,
-            "genres": ", ".join([g["name"] for g in kinopoisk_data.genres]),
-            "countries": ", ".join([c["name"] for c in kinopoisk_data.countries]),
-            "year": kinopoisk_data["year"],
-            "seasons": len(filter(kinopoisk_data.seasonsInfo, lambda x: x["episodesCount"] > 0)),
-            "episodes": sum([s["episodesCount"] for s in kinopoisk_data.seasonsInfo]),
+            "genres": ", ".join([g.name for g in kinopoisk_data.genres]),
+            "countries": ", ".join([c.name for c in kinopoisk_data.countries]),
+            "year": kinopoisk_data.year,
+            "seasons": len(filter(kinopoisk_data.seasonsInfo, lambda season: season.episodesCount > 0)),
+            "episodes": sum([season.episodesCount for season in kinopoisk_data.seasonsInfo]),
             "duration": kinopoisk_data.movieLength,
             "ageRestrictions": kinopoisk_data.ageRating,
-            "rating": kinopoisk_data.rating["kp"],
+            "rating": kinopoisk_data.rating.kp,
             "topPosition": kinopoisk_data.top250,
-            "image": kinopoisk_data.top250["poster"]["url"],
+            "image": kinopoisk_data.top250.poster.url,
         }
 
         noco_client.table_row_update(project, NOCODB_TABLE_METADATA, item["row_id"], row_info)

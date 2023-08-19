@@ -1,5 +1,5 @@
 from pydantic import BaseModel, validator
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 
 class PayloadRow(BaseModel):
@@ -35,9 +35,11 @@ class Payload(BaseModel):
     }
     """
 
-    data: dict
+    data: Dict
     items: Optional[List[PayloadRow]]
 
     @validator("items", pre=True, always=True)
     def validate_items(cls, value, values):
+        print(value)
+        print(values)
         return values["data"]["rows"]

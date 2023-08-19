@@ -53,7 +53,7 @@ def handle(req: str) -> dict:
             "row_id": item.get("Id") or item.get("id"),
             "url": item.get("url"),
         }
-        i["kinopoisk_id"] = re.search(r"/(movie|series)/(\d+)/?", i["url"]).group()[1]
+        i["kinopoisk_id"] = re.search(r"/(film|series)/(\d+)/?", i["url"]).groups()[1]
         items.append(i)
 
     # kinopoisk_id = 5012  # Gattaca
